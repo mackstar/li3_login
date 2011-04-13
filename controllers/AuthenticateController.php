@@ -1,15 +1,12 @@
 <?php
 
-namespace login\controllers;
+namespace li3_login\controllers;
 
 use \li3_flash_message\extensions\storage\FlashMessage;
-use \lithium\security\Auth;
+use \li3_login\extensions\adapter\Authentication;
 use \lithium\g11n\Message;
 
 class AuthenticateController extends ApplicationController {
-
-	public function index() {
-	}
 	
 	public function add() {
 		
@@ -17,12 +14,23 @@ class AuthenticateController extends ApplicationController {
 	
 	public function create() {
 		extract(Message::aliases());
-		Auth::clear('user');
-		if (Auth::check('user', $this->request)) {
+		$data = $this->request->data;
+		if (Authentication::authenticate($data['email'], $data['password'])) {
 			FlashMessage::set($t('Successfully logged in', array('scope'=>'login')));
+			return $this->redirect('/');
 		}
-		FlashMessage::set($t('Your details did not match our records', array('scope'=>'login')));
-		return $this->redirect('/');
+		else {
+			FlashMessage::set($t('Your details did not match our records', array('scope'=>'login')));
+			return $this->redirect('/login');
+		}
+
+	}
+	
+	public function destroy() {
+		extract(Message::aliases());
+		Authentication::remove();
+		FlashMessage::set($t('Successfully logged out', array('scope'=>'login')));
+		return $this->redirect('/login');
 	}
 
 }	

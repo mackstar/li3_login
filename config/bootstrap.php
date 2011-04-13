@@ -19,3 +19,5 @@ require __DIR__ . '/bootstrap/auth.php';
  * This file configures g11n
  */
 require __DIR__ . '/bootstrap/g11n.php';
+
+require __DIR__ . '/bootstrap/validations.php';

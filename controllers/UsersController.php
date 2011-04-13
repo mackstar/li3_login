@@ -1,8 +1,8 @@
 <?php
 
-namespace login\controllers;
+namespace li3_login\controllers;
 
-use login\models\User;
+use li3_login\models\User;
 use lithium\storage\Session;
 use lithium\core\Libraries;
 use li3_flash_message\extensions\storage\FlashMessage;
@@ -23,6 +23,9 @@ class UsersController extends ApplicationController {
 		$user = User::create($this->request->data);
 		if ($user->save()) {
 			return $this->redirect('/auth/users/index');
+		} else {
+			var_dump($user);
+			exit;
 		}
 	}
 	

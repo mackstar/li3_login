@@ -1,6 +1,6 @@
 <?php
 
-namespace login\controllers;
+namespace li3_login\controllers;
 
 class ApplicationController extends \lithium\action\Controller {
 

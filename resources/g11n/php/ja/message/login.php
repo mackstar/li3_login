@@ -11,4 +11,5 @@ return array(
 	'Full Name'=>'お名前',
 	'Choose your password'=>'パスワードをお選びください',
 	'Users List'=>'ユーザー一覧',
+	'Successfully logged out' => 'ログアウトできました',
 );

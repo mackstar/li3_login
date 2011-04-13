@@ -4,9 +4,8 @@ namespace li3_login\tests\mocks\data;
 
 use lithium\data\collection\RecordSet;
 
-class MockUser extends \li3_login\models\User {
+class MockSession extends \li3_login\models\Session {
 	
-	/*
 	public static function find($type = 'all', array $options = array()) {
 		switch ($type) {
 			case 'first':
@@ -23,7 +22,5 @@ class MockUser extends \li3_login\models\User {
 				)));
 			break;
 		}
-		
 	}
-	*/
 }
