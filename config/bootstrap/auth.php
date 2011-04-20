@@ -19,8 +19,9 @@ Auth::config(array(
 		'fields'  => array('email', 'password')
 	)
 ));
-
-Authentication::load();
+if(php_sapi_name() != 'cli') {
+	Authentication::load();
+}
 
 /*
 Dispatcher::applyFilter('_callable', function($self, $params, $chain) {

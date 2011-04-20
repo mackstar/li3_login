@@ -28,7 +28,7 @@ class Authentication extends \lithium\core\StaticObject{
 	
 	protected static function _initiateSession() {
 		$session = ModelSession::create( array(
-			'ip' => $_SERVER['REMOTE_ADDR'] ,
+			'ip' => isset($_SERVER)? $_SERVER['REMOTE_ADDR']:'' ,
 			'timestamp' => self::$_time->getTimestamp(),
 			'lasttimestamp' => self::$_time->getTimestamp()
 		)); 
