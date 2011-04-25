@@ -23,7 +23,7 @@ class UsersController extends ApplicationController {
 		$user = User::create($this->request->data);
 		if ($user->save()) {
 			return $this->redirect('/auth/users/index');
-		} else {
+		} else { 
 			var_dump($user);
 			exit;
 		}

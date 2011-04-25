@@ -11,11 +11,13 @@ class Session extends \lithium\data\Model {
 
 	public $validates = array();
 	
+	protected $_meta = array('key' => '_id');
 	
-	public function save($params) {
-		if (!isset($params['user'])) {
-			$params['user'] = null;
-		}
-		parent::save($params);
-	}
+	protected $_schema = array(
+		'_id'  => array('type' => 'id'),
+		'user' => array('type' => 'string'),
+		'ip' => array('type' => 'string'),
+		'timestamp' => array('type' => 'string'),
+		'lasttimestamp'  => array('type' => 'string')
+	);
 }

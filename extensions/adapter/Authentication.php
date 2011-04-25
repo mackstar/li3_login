@@ -12,6 +12,8 @@ class Authentication extends \lithium\core\StaticObject{
 	
 	protected static $_time = null;
 	
+	protected static $_user = null;
+	
 	public static function load() {
 		self::$_time = new \Datetime;
 		if ($sessionid = Session::read('sessionkey')) {
@@ -72,9 +74,21 @@ class Authentication extends \lithium\core\StaticObject{
 		}
 	}
 	
+	public static function isAdmin() {
+		$user = self::getUser();
+		if ($user && $user->admin) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static function getUser() {
-		if (static::$_session->user) {
-			return User::find(self::$_session->user);
+		if (static::$_user) {
+			return static::$_user;
+		} elseif (static::$_session->user) {
+			static::$_user = User::find(self::$_session->user);
+			return static::$_user;
 		} else {
 			return null;
 		}

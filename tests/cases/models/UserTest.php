@@ -41,7 +41,6 @@ class UserTest extends \lithium\test\Unit {
 		$this->assertNotEqual($user->password, 'secret');
 	}
 
-
 }
 
 ?>

@@ -5,6 +5,7 @@ use \lithium\storage\Session;
 use lithium\storage\session\adapter\Cookie;
 use lithium\action\Dispatcher;
 use \li3_login\extensions\Adapter\Authentication;
+use lithium\core\Environment;
 
 Session::config(array(
 	'default' => array('adapter' => 'Php'),
@@ -19,9 +20,15 @@ Auth::config(array(
 		'fields'  => array('email', 'password')
 	)
 ));
-if(php_sapi_name() != 'cli') {
-	Authentication::load();
-}
+
+Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	if(php_sapi_name() != 'cli' && Environment::get()!='test') {
+		Authentication::load();
+	}
+	return $chain->next($self, $params, $chain);
+});
+
+
 
 /*
 Dispatcher::applyFilter('_callable', function($self, $params, $chain) {

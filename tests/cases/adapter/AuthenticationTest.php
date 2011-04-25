@@ -6,12 +6,16 @@ use \li3_login\extensions\Adapter\Authentication;
 use \li3_login\models\User;
 use \li3_login\models\Session;
 use lithium\core\Environment;
+use \lithium\storage\Session as PhpSession;
+use lithium\data\Connections;
+
 
 class AuthenticationTest extends \lithium\test\Unit {
-	
+
 	protected $email = 'test@mackstar.com';
 	protected $password = 'secret';
 	protected $wrongPassword = 'wrongwrongwrong';
+
 
 	public function setUp() {
 		// Clear database for all Sessions and Users
@@ -20,11 +24,12 @@ class AuthenticationTest extends \lithium\test\Unit {
 		Authentication::load();
 		$user = User::create(array('email'=> $this->email, 'password'=>$this->password));
 		$user->save();
+		PhpSession::delete('sessionkey');
 	}
 
 	public function tearDown() {
-		User::remove();
-		Session::remove();
+		//User::remove();
+		//Session::remove();
 	}
 	
 	public function testSession() {
@@ -67,6 +72,12 @@ class AuthenticationTest extends \lithium\test\Unit {
 		Authentication::remove();
 		$this->assertFalse(Authentication::isAuthenticated());
 		$this->assertEqual($count, Session::count());
+	}
+	
+	public function testAdminUser() {
+		
+		$this->assertTrue(Authentication::authenticate($this->email, $this->password));
+		$this->assertFalse(Authentication::isAdmin());
 	}
 	
 }
