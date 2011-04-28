@@ -9,28 +9,24 @@ use \lithium\g11n\Message;
 class AuthenticateController extends ApplicationController {
 	
 	public function add() {
-		
-	}
-	
-	public function create() {
-		extract(Message::aliases());
-		$data = $this->request->data;
-		if (Authentication::authenticate($data['email'], $data['password'])) {
-			FlashMessage::set($t('Successfully logged in', array('scope'=>'login')));
-			return $this->redirect('/');
+		if(($this->request->data)) {
+			extract(Message::aliases());
+			if (Authentication::authenticate($this->request->data['email'], $this->request->data['password'])) {
+				FlashMessage::write($t('Successfully logged in', array('scope'=>'login')));
+				return $this->redirect('/');
+			}
+			else {
+				FlashMessage::write($t('Your details did not match our records', array('scope'=>'login')));
+				return $this->redirect('/login');
+			}
 		}
-		else {
-			FlashMessage::set($t('Your details did not match our records', array('scope'=>'login')));
-			return $this->redirect('/login');
-		}
-
 	}
 	
 	public function destroy() {
 		extract(Message::aliases());
 		Authentication::remove();
-		FlashMessage::set($t('Successfully logged out', array('scope'=>'login')));
-		return $this->redirect('/login');
+		FlashMessage::write($t('Successfully logged out', array('scope'=>'login')));
+		return $this->redirect('/');
 	}
 
 }	

@@ -27,18 +27,3 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	}
 	return $chain->next($self, $params, $chain);
 });
-
-
-
-/*
-Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
-    $request = $params['request'];
-    $controller = $chain->next($self, $params, $chain);
-
-    if (!$request->locale) {
-        $request->params['locale'] = Locale::preferred($request);
-    }
-    Environment::set(Environment::get(), array('locale' => $request->locale));
-    return $controller;
-});
-*/

@@ -5,9 +5,9 @@ namespace li3_login\tests\cases\adapter;
 use \li3_login\extensions\Adapter\Authentication;
 use \li3_login\models\User;
 use \li3_login\models\Session;
-use lithium\core\Environment;
 use \lithium\storage\Session as PhpSession;
 use lithium\data\Connections;
+use lithium\core\Environment;
 
 
 class AuthenticationTest extends \lithium\test\Unit {

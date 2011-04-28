@@ -3,10 +3,14 @@
 namespace li3_login\models;
 
 use lithium\data\Model;
-use lithium\util\String;
 use lithium\util\validator;
+use lithium\core\Environment;
+use lithium\util\String;
 
 class User extends \lithium\data\Model {
+	
+	
+	protected $_meta = array('key' => '_id');
 
 	public $validates = array(
 		'email' => array(
@@ -15,7 +19,7 @@ class User extends \lithium\data\Model {
 			array('email', 'message' => 'Please enter a valid email address.'),
 		),
 		'password' => array(
-			array('notEmpty', 'message' => 'Password should not be empty.'),
+			array('notEmpty', 'message' => 'Password should be between 5 and 12 characters.'),
 		),
 	);
 	
@@ -23,12 +27,13 @@ class User extends \lithium\data\Model {
 		'_id'  => array('type' => 'id'),
 		'name' => array('type' => 'string'),
 		'email' => array('type' => 'string'),
-		'password'  => array('type' => 'string'),
+		'password' => array('type' => 'string'),
 		'admin'  => array('type' => 'integer', 'default'=>0),
 	);
 	
 	
 	public static function __init(){
+		
 		Validator::add('emailUnique', function($value, $name, $options) {
 			if ($options['events'] != 'update'){
 				return User::emailExists($options['values']['email']);
@@ -41,6 +46,8 @@ class User extends \lithium\data\Model {
 				}	
 			}
 		});
+		
+		
 		parent::__init();
 	}
 	
@@ -51,17 +58,15 @@ class User extends \lithium\data\Model {
 	
 }
 
-
-
-User::applyFilter('save', function($self, $params, $chain){
+User::applyFilter('save',function($self, $params, $chain){
 	$record = $params['entity'];
-	
 	if (!$record->id) {
 		$record->password = \lithium\util\String::hash($record->password);
+		$post->created = date('Y-m-d H:i:s');
 	}
 	if (!empty($params['data'])) {
 		$record->set($params['data']);
 	}
-	$params['entity'] = $record;
+	$params['record'] = $record;
 	return $chain->next($self, $params, $chain);
 });

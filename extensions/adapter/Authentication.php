@@ -46,6 +46,7 @@ class Authentication extends \lithium\core\StaticObject{
 		)));
 		if ($user) {
 			self::$_session->user = $user->_id->__toString();
+			self::$_session->save();
 			return true;
 		} else {
 			return false;

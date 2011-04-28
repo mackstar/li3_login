@@ -1,6 +1,5 @@
 <?php
 
-use lithium\core\Environment;
 use lithium\core\Libraries;
 
 if (!defined('LITHIUM_LIBRARY_PATH')) {
