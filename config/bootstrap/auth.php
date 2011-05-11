@@ -4,7 +4,7 @@ use \lithium\security\Auth;
 use \lithium\storage\Session;
 use lithium\storage\session\adapter\Cookie;
 use lithium\action\Dispatcher;
-use \li3_login\extensions\Adapter\Authentication;
+use \li3_login\extensions\adapter\Authentication;
 use lithium\core\Environment;
 
 Session::config(array(
