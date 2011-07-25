@@ -5,7 +5,7 @@ namespace li3_login\controllers;
 use li3_login\models\User;
 use lithium\storage\Session;
 use lithium\core\Libraries;
-use li3_flash_message\extensions\storage\FlashMessage;
+use li3_flash\extensions\storage\FlashMessage;
 
 class UsersController extends ApplicationController {
 

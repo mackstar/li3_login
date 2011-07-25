@@ -24,16 +24,14 @@ class User extends \lithium\data\Model {
 	);
 	
 	protected $_schema = array(
-		'_id'  => array('type' => 'id'),
+		'_id'  => array('type' => 'string'),
 		'name' => array('type' => 'string'),
 		'email' => array('type' => 'string'),
 		'password' => array('type' => 'string'),
-		'admin'  => array('type' => 'integer', 'default'=>0),
+		'status'  => array('type' => 'integer', 'default'=>0),
 	);
 	
-	
-	public static function __init(){
-		
+	public static function __init() {
 		Validator::add('emailUnique', function($value, $name, $options) {
 			if ($options['events'] != 'update'){
 				return User::emailExists($options['values']['email']);
@@ -46,16 +44,13 @@ class User extends \lithium\data\Model {
 				}	
 			}
 		});
-		
-		
 		parent::__init();
 	}
 	
 	public static function emailExists($email){
 		return User::count(array('conditions' => array('email'=>$email)))? false : true;
 	}
-	
-	
+  
 }
 
 User::applyFilter('save',function($self, $params, $chain){
