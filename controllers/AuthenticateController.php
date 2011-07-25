@@ -2,7 +2,7 @@
 
 namespace li3_login\controllers;
 
-use \li3_flash_message\extensions\storage\FlashMessage;
+use \li3_flash\extensions\storage\FlashMessage;
 use \li3_login\extensions\adapter\Authentication;
 use \lithium\g11n\Message;
 

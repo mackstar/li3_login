@@ -2,7 +2,7 @@
 
 if (!defined('LITHIUM_LIBRARY_PATH')) {
 	define('LITHIUM_APP_PATH', dirname(__DIR__));
-	define('LITHIUM_LIBRARY_PATH', '/Users/MackstarMBA/Documents/Utilities/lithium_libraries');
+	define('LITHIUM_LIBRARY_PATH', LITHIUM_APP_PATH . 'libraries/lithium');
 }
 
 /**

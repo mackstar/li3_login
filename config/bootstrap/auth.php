@@ -14,7 +14,7 @@ Session::config(array(
 ));
 
 Auth::config(array(
-	'user' => array(
+	'default' => array(
 		'adapter' => 'Form',
 		'model'   => 'User',
 		'fields'  => array('email', 'password')

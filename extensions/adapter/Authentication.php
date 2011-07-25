@@ -5,6 +5,7 @@ namespace li3_login\extensions\adapter;
 use li3_login\models\Session as ModelSession;
 use li3_login\models\User;
 use \lithium\storage\Session;
+use \lithium\util\String;
 
 class Authentication extends \lithium\core\StaticObject{
 	
@@ -30,12 +31,19 @@ class Authentication extends \lithium\core\StaticObject{
 	
 	protected static function _initiateSession() {
 		$session = ModelSession::create( array(
+		  '_id' => String::uuid(),
 			'ip' => isset($_SERVER)? $_SERVER['REMOTE_ADDR']:'' ,
 			'timestamp' => self::$_time->getTimestamp(),
 			'lasttimestamp' => self::$_time->getTimestamp()
-		)); 
+		));
+    /*
+    echo '<pre>';
+    echo Debugger::export($session);
+    echo '<pre>';
+    exit();
+    */
 		$session->save();
-		Session::write('sessionkey', $session->_id->__toString());
+		Session::write('sessionkey', $session->_id);
 		self::$_session = $session;
 	}
 	
@@ -75,9 +83,9 @@ class Authentication extends \lithium\core\StaticObject{
 		}
 	}
 	
-	public static function isAdmin() {
+	public static function hasStatus() {
 		$user = self::getUser();
-		if ($user && $user->admin) {
+		if ($user && $user->status) {
 			return true;
 		} else {
 			return false;
