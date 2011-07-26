@@ -7,7 +7,6 @@ use \li3_login\models\User;
 use \li3_login\models\Session;
 use \lithium\storage\Session as PhpSession;
 use lithium\data\Connections;
-use lithium\core\Environment;
 
 
 class AuthenticationTest extends \lithium\test\Unit {

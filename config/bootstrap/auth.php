@@ -1,10 +1,9 @@
 <?php
 
-use \lithium\security\Auth;
-use \lithium\storage\Session;
+use lithium\storage\Session;
 use lithium\storage\session\adapter\Cookie;
 use lithium\action\Dispatcher;
-use \li3_login\extensions\adapter\Authentication;
+use li3_login\extensions\adapter\Authentication;
 use lithium\core\Environment;
 
 Session::config(array(
@@ -13,15 +12,7 @@ Session::config(array(
 	'flash_message' => array('adapter' => 'Php')
 ));
 
-Auth::config(array(
-	'user' => array(
-		'adapter' => 'Form',
-		'model'   => 'User',
-		'fields'  => array('email', 'password')
-	)
-));
-
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
+Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 	if(php_sapi_name() != 'cli' && Environment::get()!='test') {
 		Authentication::load();
 	}

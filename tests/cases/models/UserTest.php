@@ -2,19 +2,22 @@
 
 namespace li3_login\tests\cases\models;
 
-use \li3_login\models\User;
+use li3_login\models\User;
+use lithium\data\Connections;
 
 class UserTest extends \lithium\test\Unit {
 
 	public function setUp() {
+		$connection = array();
 		User::remove();
+		$connection = User::connection();
 	}
 
 	public function tearDown() {}
 	
 	public function testValidatesPassword() {
-		//$user = User::create(array('email'=>'test1@mackstar.com', 'password'=>''));
-		//$this->assertFalse($user->save());
+		$user = User::create(array('email'=>'test1@mackstar.com', 'password'=>''));
+		$this->assertFalse($user->save());
 	}
 	
 	public function testValidatesEmail() {

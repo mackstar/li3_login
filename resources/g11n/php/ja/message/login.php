@@ -12,4 +12,5 @@ return array(
 	'Choose your password'=>'パスワードをお選びください',
 	'Users List'=>'ユーザー一覧',
 	'Successfully logged out' => 'ログアウトできました',
+	'Successfully added user' => 'ユーザーを追加する事はできました',
 );

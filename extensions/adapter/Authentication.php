@@ -4,7 +4,7 @@ namespace li3_login\extensions\adapter;
 
 use li3_login\models\Session as ModelSession;
 use li3_login\models\User;
-use \lithium\storage\Session;
+use lithium\storage\Session;
 
 class Authentication extends \lithium\core\StaticObject{
 	
@@ -40,7 +40,6 @@ class Authentication extends \lithium\core\StaticObject{
 	}
 	
 	public static function authenticate($email, $password) {
-		
 		$user = User::find('first', array('conditions'=>array(
 			'email'=>$email, 'password'=>\lithium\util\String::hash($password)
 		)));
@@ -53,11 +52,17 @@ class Authentication extends \lithium\core\StaticObject{
 		}
 	}
 	
+	public static function userControl($user) {
+		if($user->_id == self::getUser()->_id || self::isAdmin()){
+			return true;
+		}
+		return false;
+	}
+	
 	public static function getSession() {
 		return self::$_session;
 	}
 	
-	// This is more of a place holder than anything
 	public static function destroy() {
 		self::_initiateSession();
 	}

@@ -4,7 +4,6 @@ namespace li3_login\models;
 
 use lithium\data\Model;
 use lithium\util\validator;
-use lithium\core\Environment;
 use lithium\util\String;
 
 class User extends \lithium\data\Model {
@@ -19,10 +18,10 @@ class User extends \lithium\data\Model {
 			array('email', 'message' => 'Please enter a valid email address.'),
 		),
 		'password' => array(
-			array('notEmpty', 'message' => 'Password should be between 5 and 12 characters.'),
+			array('hashedNotEmpty', 'message' => 'Password should be between 5 and 12 characters.'),
 		),
 	);
-	
+
 	protected $_schema = array(
 		'_id'  => array('type' => 'id'),
 		'name' => array('type' => 'string'),
@@ -30,8 +29,7 @@ class User extends \lithium\data\Model {
 		'password' => array('type' => 'string'),
 		'admin'  => array('type' => 'integer', 'default'=>0),
 	);
-	
-	
+
 	public static function __init(){
 		
 		Validator::add('emailUnique', function($value, $name, $options) {
@@ -46,23 +44,23 @@ class User extends \lithium\data\Model {
 				}	
 			}
 		});
-		
+		Validator::add('hashedNotEmpty', function($value) {
+			return (\lithium\util\String::hash('') != $value)? true : false;
+		});
 		
 		parent::__init();
 	}
 	
 	public static function emailExists($email){
 		return User::count(array('conditions' => array('email'=>$email)))? false : true;
-	}
-	
-	
+	}	
 }
 
 User::applyFilter('save',function($self, $params, $chain){
 	$record = $params['entity'];
 	if (!$record->id) {
 		$record->password = \lithium\util\String::hash($record->password);
-		$post->created = date('Y-m-d H:i:s');
+		$record->created = date('Y-m-d H:i:s');
 	}
 	if (!empty($params['data'])) {
 		$record->set($params['data']);
