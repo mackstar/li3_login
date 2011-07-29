@@ -8,9 +8,16 @@ use lithium\util\String;
 
 class User extends \lithium\data\Model {
 	
-	
 	protected $_meta = array('key' => '_id');
-
+	
+	protected $_schema = array(
+		'_id' => array('type' => 'id'),
+		'name' => array('type' => 'string'),
+		'email' => array('type' => 'string'),
+		'password' => array('type' => 'string'),
+		'admin' => array('type' => 'integer', 'default'=>0),
+	);
+	
 	public $validates = array(
 		'email' => array(
 			array('emailUnique', 'message' => 'Email has already been registered.'),
@@ -20,14 +27,6 @@ class User extends \lithium\data\Model {
 		'password' => array(
 			array('hashedNotEmpty', 'message' => 'Password should be between 5 and 12 characters.'),
 		),
-	);
-
-	protected $_schema = array(
-		'_id'  => array('type' => 'id'),
-		'name' => array('type' => 'string'),
-		'email' => array('type' => 'string'),
-		'password' => array('type' => 'string'),
-		'admin'  => array('type' => 'integer', 'default'=>0),
 	);
 
 	public static function __init(){
@@ -52,6 +51,7 @@ class User extends \lithium\data\Model {
 	}
 	
 	public static function emailExists($email){
+		$users = User::all(array('conditions' => array('email'=>$email)));
 		return User::count(array('conditions' => array('email'=>$email)))? false : true;
 	}	
 }

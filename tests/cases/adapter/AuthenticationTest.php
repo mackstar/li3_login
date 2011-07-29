@@ -17,18 +17,23 @@ class AuthenticationTest extends \lithium\test\Unit {
 
 
 	public function setUp() {
+		
 		// Clear database for all Sessions and Users
-		User::remove();
-		Session::remove();
+		foreach ( array('\li3_login\models\User', '\li3_login\models\Session') as $class) {
+			$results = $class::all();
+			if (count($results)) {
+				$results->delete();
+			} 
+		}
 		Authentication::load();
 		$user = User::create(array('email'=> $this->email, 'password'=>$this->password));
 		$user->save();
+		
 		PhpSession::delete('sessionkey');
 	}
 
 	public function tearDown() {
-		//User::remove();
-		//Session::remove();
+		
 	}
 	
 	public function testSession() {
@@ -39,7 +44,7 @@ class AuthenticationTest extends \lithium\test\Unit {
 	
 	public function testDestroySession() {
 		$session = Authentication::getSession();
-		$id = $session->_id->__toString();
+		$id = $session->id;
 		Authentication::destroy();
 		$this->assertEqual(Session::count(), 2);
 		$session = Authentication::getSession();
@@ -74,7 +79,6 @@ class AuthenticationTest extends \lithium\test\Unit {
 	}
 	
 	public function testAdminUser() {
-		
 		$this->assertTrue(Authentication::authenticate($this->email, $this->password));
 		$this->assertFalse(Authentication::isAdmin());
 	}

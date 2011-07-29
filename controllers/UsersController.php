@@ -38,7 +38,7 @@ class UsersController extends ApplicationController {
 	
 	public function destroy() {
 		extract(Message::aliases());
-		$user = User::find($this->request->id);
+		$user = User::find($this->request->_id);
 		$this->_limitUserControl($user);
 		if ($user->_id == Authentication::getUser()->_id) {
 			Authentication::remove();

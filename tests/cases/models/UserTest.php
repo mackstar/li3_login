@@ -9,11 +9,12 @@ class UserTest extends \lithium\test\Unit {
 
 	public function setUp() {
 		$connection = array();
-		User::remove();
+		$results = User::all();
+		if (count($results)) {
+			$results->delete();
+		}
 		$connection = User::connection();
 	}
-
-	public function tearDown() {}
 	
 	public function testValidatesPassword() {
 		$user = User::create(array('email'=>'test1@mackstar.com', 'password'=>''));
