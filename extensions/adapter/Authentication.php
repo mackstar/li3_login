@@ -41,9 +41,7 @@ class Authentication extends \lithium\core\StaticObject{
 	
 	public static function authenticate($email, $password) {
 		
-		$user = User::find('first', array('conditions'=>array(
-			'email'=>$email, 'password'=>\lithium\util\String::hash($password)
-		)));
+		$user = static::getUserFromLogin($email, $password);
 		if ($user) {
 			self::$_session->user = $user->_id->__toString();
 			self::$_session->save();
@@ -51,6 +49,13 @@ class Authentication extends \lithium\core\StaticObject{
 		} else {
 			return false;
 		}
+	}
+	
+	public static function getUserFromLogin($email, $password) {
+		$user = User::first();
+		return User::find('first', array('conditions'=>array(
+			'email'=>$email, 'password'=>\lithium\util\String::hash($password)
+		)));
 	}
 	
 	public static function getSession() {
