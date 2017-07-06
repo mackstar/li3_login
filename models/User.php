@@ -2,9 +2,7 @@
 
 namespace li3_login\models;
 
-use lithium\data\Model;
 use lithium\util\validator;
-use lithium\util\Text;
 use lithium\security\Password;
 
 
@@ -21,6 +19,7 @@ class User extends \lithium\data\Model {
 		'name' => ['type' => 'string'],
 		'email' => ['type' => 'string'],
 		'mobile' => ['type' => 'string'],
+		'birthday' => ['type' => 'date'],
 		'password' => ['type' => 'string'],
 		'is_admin' => ['type' => 'integer', 'default' => 0 ],
 		'create_at' => ['type' => 'date'],

@@ -41,19 +41,19 @@ class UsersController extends ApplicationController {
 	public function destroy() {
 		extract(Message::aliases());
 		$user = User::find($this->request->_id);
-		$this->_limitUserControl($user);
-		if ($user->_id == Authentication::getUser()->_id) {
+		$this->_limitUserControl();
+		if ($user->user_id == Authentication::getUser()->user_id) {
 			Authentication::remove();
 		}
-		if (User::remove(array('_id'=>$this->request->id))) {
-			FlashMessage::write($this->t('User not found', array('scope'=>'login')));
+		if (User::remove(array('user_id'=>$this->request->id))) {
+			FlashMessage::write($t('User not found', array('scope'=>'login')));
 			$this->redirect('/');
 		}
 	}
 	
 	public function view() {
 		$user = User::first($this->request->id);
-		$this->_limitUserControl($user);
+		$this->_limitUserControl();
 		return compact('user');
 	}
 	
@@ -63,9 +63,13 @@ class UsersController extends ApplicationController {
 			FlashMessage::write($t('User not found', array('scope'=>'login')));
 			$this->redirect('/');
 		}
-		$this->_limitUserControl($user);
+
+		$this->_limitUserControl();
 		if (($this->request->data) && $user->save($this->request->data)) {
-			$this->redirect(array('User::view', 'args' => array($course->id)));
+			$this->redirect([
+			    'User::view',
+                'args' => [$user->user_id]
+            ]);
 		}
 		return compact('user');
 	}
