@@ -23,7 +23,9 @@ class UsersController extends ApplicationController {
 	
 	public function add() {
 		extract(Message::aliases());
+        $this->request->data['create_at'] = date('Y-m-d H:i:s');
 		$user = User::create($this->request->data);
+
 		if (($this->request->data) && $user->save()) {
 			FlashMessage::write($t('Successfully added user', array('scope'=>'login')));
 			if(Authentication::isAdmin()) {

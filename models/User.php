@@ -4,35 +4,45 @@ namespace li3_login\models;
 
 use lithium\data\Model;
 use lithium\util\validator;
-use lithium\util\String;
+use lithium\util\Text;
+use lithium\security\Password;
+
 
 class User extends \lithium\data\Model {
 	
-	protected $_meta = array('key' => '_id');
+	protected $_meta = [
+        'source' => 'tbl_users',
+        'key' => 'user_id'
+    ];
 	
-	protected $_schema = array(
-		'_id' => array('type' => 'id'),
-		'name' => array('type' => 'string'),
-		'email' => array('type' => 'string'),
-		'password' => array('type' => 'string'),
-		'admin' => array('type' => 'integer', 'default'=>0),
-	);
+	protected $_schema = [
+		'user_id' => ['type' => 'id'],
+		'creator_id' => ['type' => 'id', 'default' => 0 ],
+		'name' => ['type' => 'string'],
+		'email' => ['type' => 'string'],
+		'mobile' => ['type' => 'string'],
+		'password' => ['type' => 'string'],
+		'is_admin' => ['type' => 'integer', 'default' => 0 ],
+		'create_at' => ['type' => 'date'],
+		'update_at' => ['type' => 'date'],
+		'delete_at' => ['type' => 'date'],
+    ];
 	
-	public $validates = array(
-		'email' => array(
-			array('emailUnique', 'message' => 'Email has already been registered.'),
-			array('notEmpty', 'message' => 'Email should not be empty.'),
-			array('email', 'message' => 'Please enter a valid email address.'),
-		),
-		'password' => array(
-			array('hashedNotEmpty', 'message' => 'Password should be between 5 and 12 characters.'),
-		),
-	);
+	public $validates = [
+		'email' => [
+			['emailUnique', 'message' => 'Email has already been registered.'],
+			['notEmpty', 'message' => 'Email should not be empty.'],
+			['email', 'message' => 'Please enter a valid email address.'],
+        ],
+		'password' => [
+           ['hashedNotEmpty', 'message' => 'Password should be between 5 and 12 characters.'],
+		],
+	];
 
-	public static function __init(){
+	public function __construct(){
 		
 		Validator::add('emailUnique', function($value, $name, $options) {
-			if ($options['events'] != 'update'){
+			if ($options['events'] != 'update') {
 				return User::emailExists($options['values']['email']);
 			}	else {
 				$user = User::first(array('conditions' => array('_id' => $options['values']['_id']), 'fields' => array('email')));
@@ -44,10 +54,10 @@ class User extends \lithium\data\Model {
 			}
 		});
 		Validator::add('hashedNotEmpty', function($value) {
-			return (\lithium\util\String::hash('') != $value)? true : false;
+			return (Password::hash('') != $value)? true : false;
 		});
 		
-		parent::__init();
+	//	parent::_init();
 	}
 	
 	public static function emailExists($email){
