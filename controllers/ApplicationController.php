@@ -20,11 +20,12 @@ class ApplicationController extends \lithium\action\Controller {
 		
 		// Initialize parent
 		parent::_init();
-		
+
 	}
-	
-	protected function _limitUserControl($user){
-		if (!Authentication::userControl($user)) {
+
+	protected function _limitUserControl(){
+        extract(Message::aliases());
+		if (!Authentication::isAdmin()) {
 			FlashMessage::write($t('You do not have permission to access this screen', array('scope'=>'login')));
 			$this->redirect('/');
 		}

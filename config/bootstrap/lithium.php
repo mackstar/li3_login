@@ -19,5 +19,5 @@ if (!Libraries::get('lithium')) {
 }
 
 if (!Libraries::get('li3_login')) {
-	Libraries::add('li3_login', array('default' => true));
+	Libraries::add('li3_login', ['default' => true]);
 }

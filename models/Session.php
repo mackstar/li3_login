@@ -4,10 +4,13 @@ namespace li3_login\models;
 
 use lithium\data\Model;
 
-/**
- * 日本語のコメント
- */
+
 class Session extends \lithium\data\Model {
+
+    protected $_meta = [
+        'source' => 'tbl_session',
+        'key' => '_id'
+    ];
 
 	public $validates = array();
 		
